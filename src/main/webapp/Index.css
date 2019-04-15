@@ -1,0 +1,106 @@
+@charset "UTF-8";
+.Head{
+	    border-radius:5px;
+		position:relative;
+		top:15%; 
+		left:40%; 		
+		width:250px; 
+		height:30px;
+		margin:20px;
+		font-family:verdana;font-size:30px;color:blue; 
+}
+.Main{
+	    border-radius:5px;
+		position:relative;
+		top:20%; 
+		left:5%; 		
+		width:1020px; 
+		height:700px;
+		margin:20px;
+		background-color:#f9f9f9; 
+		
+		text-decoration: none;
+	}
+.Select{
+	border-radius:2px;
+	position:relative;
+	top:3%;
+	left:6%;
+	width:60%;
+	height:30px;
+	margin:5px; 
+}
+.Button{
+	border-radius:2px;
+	position:relative;
+	top:10%;
+	left:6%;
+	width:80px;
+	height:30px;
+	margin:5px; 
+}
+.Text{
+	border-radius:2px;
+	position:relative;
+	top:5%;
+	left:6%;
+	width:60%;
+	height:30px;
+	margin:5px;
+	rows:1; 
+}
+.Left{
+	    border-radius:1px;
+		position:relative;
+		top:0%; 
+		left:5%; 		
+		width:50%; 
+		height:95%;
+		margin:10px;
+		background-color:#f9f9f9;  
+		text-decoration: none;
+}
+.Right{
+	    border-radius:1px;
+		position:absolute;
+		top:0%; 
+		left:51%; 		
+		width:48%; 
+		height:95%;
+		margin:10px;
+		background-color:#f9f9f9; 
+		text-decoration: none;
+}
+.Select1{
+	border-radius:2px;
+	position:relative;
+	top:3%;
+	left:2%;
+	width:97%;
+	height:30px;
+	margin:5px; 
+}
+.Button1{
+	border-radius:2px;
+	position:relative;
+	top:10%;
+	left:40%;
+	width:120px;
+	height:30px;
+	margin:10px; 
+}
+.Result{
+	border-radius:2px;
+	position:relative;
+	top:3%;
+	left:6%;
+	width:60%;
+	height:30px;
+	margin:5px; 
+	font-family:verdana;font-size:80%;color:red; 
+}
+.alert alert-success{
+	position:float;
+	top:30%;
+	left:30%;
+}
