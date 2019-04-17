@@ -1,24 +1,17 @@
-package Web_Sever;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @WebServlet("/Search")
 public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	private ArrayList<Baggage_INFO>info;//´æ´¢ĞĞÀîµÄ²ÎÊı
+	private ArrayList<Baggage_INFO>info;//å­˜å‚¨è¡Œæçš„å‚æ•°
 	private Passenger_Info p_info;
     public Search() {
         super();
@@ -37,7 +30,7 @@ public class Search extends HttpServlet {
 			request.setAttribute("Info",null);
 			request.getRequestDispatcher("/Index2.jsp").forward(request, response);
 		}
-		else if(buttonType.equals("ADD")) {//Ìí¼ÓĞĞÀî
+		else if(buttonType.equals("ADD")) {//æ·»åŠ è¡Œæ
 			String V_Height=new String(request.getParameter("Height").getBytes("iso-8859-1"), "utf-8");
 			String V_Width=new String(request.getParameter("Width").getBytes("iso-8859-1"), "utf-8");
 			String V_Long=new String(request.getParameter("Long").getBytes("iso-8859-1"), "utf-8");
@@ -54,20 +47,20 @@ public class Search extends HttpServlet {
 			
 			String res="";
 			for(int i=0;i<info.size();i++) {
-				String temp="ĞĞÀî:"+String.valueOf(i+1)+" ÖØÁ¿£º"+String.valueOf(info.get(i).weight)+"KG";
+				String temp="è¡Œæ:"+String.valueOf(i+1)+" é‡é‡ï¼š"+String.valueOf(info.get(i).weight)+"KG";
 				res+=temp;
 				temp=String.valueOf(info.get(i).length)+"CM";
-				res=res+"³¤£º"+temp;
+				res=res+"é•¿ï¼š"+temp;
 				temp=String.valueOf(info.get(i).width)+"CM";
-				res=res+"¿í£º"+temp;
+				res=res+"å®½ï¼š"+temp;
 				temp=String.valueOf(info.get(i).height)+"CM";
-				res=res+"¸ß£º"+temp;
+				res=res+"é«˜ï¼š"+temp;
 				res+="@";
 			}
 			request.setAttribute("Info",res);
 			request.getRequestDispatcher("/Index2.jsp").forward(request, response);
 		}
-		else if(buttonType.equals("Search")) {//²éÑ¯ÔË·Ñ
+		else if(buttonType.equals("Search")) {//æŸ¥è¯¢è¿è´¹
 			
 			p_info.S_Line=new String(request.getParameter("S_Line").getBytes("iso-8859-1"), "utf-8");
 			p_info.S_Cabin=new String(request.getParameter("S_Cabin").getBytes("iso-8859-1"), "utf-8");
@@ -90,22 +83,22 @@ public class Search extends HttpServlet {
 			if(!info.get(i).compulateORnot)continue;
 			total_weight+=info.get(i).weight;
 		}
-		if(S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {
+		if(S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜æˆ–å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {
 			total_weight=total_weight-20;
 		}
-		else if(S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢")) {
+		else if(S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜æˆ–å¤©åˆè”ç›Ÿç²¾è‹±")) {
 			total_weight=total_weight-10;
 		}
-		if(S_Cabin.equals("Í·µÈ²Õ")) {
+		if(S_Cabin.equals("å¤´ç­‰èˆ±")) {
 			total_weight=total_weight-40;
 		}
-		else if(S_Cabin.equals("¹«Îñ²Õ")) {
+		else if(S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 			total_weight=total_weight-30;
 		}
-		else if(S_Cabin.equals("¾­¼Ã²Õ")||S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")) {
+		else if(S_Cabin.equals("ç»æµèˆ±")||S_Cabin.equals("æ˜ç ç»æµèˆ±")) {
 			total_weight=total_weight-20;
 		}
-		else if(S_Type.equals("Ó¤¶ù")||S_Type.equals("²»Õ¼×ùÓ¤¶ù")){
+		else if(S_Type.equals("å©´å„¿")||S_Type.equals("ä¸å åº§å©´å„¿")){
 			total_weight=total_weight-10;
 		}
 		if(total_weight<=0)return 0;
@@ -120,20 +113,20 @@ public class Search extends HttpServlet {
 	public int Compute_Outline_1(String S_Cabin,String S_Type) {
 		int total_price=0;
 		int total_count=info.size();
-		if(S_Cabin.equals("Í·µÈ²Õ")||S_Cabin.equals("¹«Îñ²Õ")) {
+		if(S_Cabin.equals("å¤´ç­‰èˆ±")||S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 			int flag1=3;
 			int flag2=1;
 			int over_count=total_count-4;
-			if(S_Cabin.equals("¹«Îñ²Õ")) {
+			if(S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 				flag1=2;
 				flag2=1;
 				over_count+=1;
 			}
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
@@ -143,26 +136,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
-					else if(info.get(i).weight<=32&&flag1>0) {//Í·µÈ²Õ\¹«Îñ²ÕÃâ·ÑĞĞÀî¶î
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+					else if(info.get(i).weight<=32&&flag1>0) {//å¤´ç­‰èˆ±\å…¬åŠ¡èˆ±å…è´¹è¡Œæé¢
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>32) {
 							total_price+=3000;
 						}
@@ -172,15 +165,15 @@ public class Search extends HttpServlet {
 					}
 				}
 		}
-		else if(S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")||S_Cabin.equals("¾­¼Ã²Õ")) {
+		else if(S_Cabin.equals("æ˜ç ç»æµèˆ±")||S_Cabin.equals("ç»æµèˆ±")) {
 			int flag1=2;
 			int flag2=1;
 			int over_count=total_count-3;
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 				
@@ -191,26 +184,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=23&&flag1>0) {//
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>23&&info.get(i).weight<=32) {
 							total_price+=1000;
 						}
@@ -232,19 +225,19 @@ public class Search extends HttpServlet {
 		int flag1=3;
 		int flag2=1;
 		int over_count=total_count-4;
-		if(S_Cabin.equals("¹«Îñ²Õ")) {
+		if(S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 			flag1--;
 			over_count++;
 		}
-		if(S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")||S_Cabin.equals("¾­¼Ã²Õ")) {
+		if(S_Cabin.equals("æ˜ç ç»æµèˆ±")||S_Cabin.equals("ç»æµèˆ±")) {
 			flag1=flag1-2;
 			over_count=over_count+2;
 		}
-		if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢²»Õ¼×ùÓ¤¶ù")) {
+		if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€ä¸å åº§å©´å„¿")) {
 			over_count++;
 			flag2=0;
 		}
-		if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+		if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 			flag1++;
 			flag2--;
 		}
@@ -257,26 +250,26 @@ public class Search extends HttpServlet {
 		for(int i=0;i<info.size();i++) {
 			if(!info.get(i).compulateORnot)continue;
 			if(info.get(i).weight<=20&&flag2==1&&
-					S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-				if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+					S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+				if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 					total_price+=1000;
 				}
 				flag2--;
 			}
 			else if(info.get(i).weight<=10&&flag2==1&&
-					S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-				if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+					S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+				if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 					total_price+=1000;
 				}
 				flag2--;
 			}
 			else if(info.get(i).weight<=32&&flag1>0) {//
-				if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+				if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 					total_price+=1000;
 				}
 				flag1--;
 			}
-			else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+			else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 				if(info.get(i).weight>32) {
 					total_price+=3000;
 				}
@@ -291,20 +284,20 @@ public class Search extends HttpServlet {
 	public int Compute_Outline_3(String S_Cabin,String S_Type) {
 		int total_price=0;
 		int total_count=info.size();
-		if(S_Cabin.equals("Í·µÈ²Õ")||S_Cabin.equals("¹«Îñ²Õ")) {
+		if(S_Cabin.equals("å¤´ç­‰èˆ±")||S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 			int flag1=3;
 			int flag2=1;
 			int over_count=total_count-4;
-			if(S_Cabin.equals("¹«Îñ²Õ")) {
+			if(S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 				flag1=2;
 				flag2=1;
 				over_count+=1;
 			}
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
@@ -314,26 +307,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
-					else if(info.get(i).weight<=32&&flag1>0) {//Í·µÈ²Õ\¹«Îñ²ÕÃâ·ÑĞĞÀî¶î
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+					else if(info.get(i).weight<=32&&flag1>0) {//å¤´ç­‰èˆ±\å…¬åŠ¡èˆ±å…è´¹è¡Œæé¢
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>32) {
 							total_price+=3000;
 						}
@@ -343,15 +336,15 @@ public class Search extends HttpServlet {
 					}
 				}
 		}
-		else if(S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")||S_Cabin.equals("¾­¼Ã²Õ")) {
+		else if(S_Cabin.equals("æ˜ç ç»æµèˆ±")||S_Cabin.equals("ç»æµèˆ±")) {
 			int flag1=2;
 			int flag2=1;
 			int over_count=total_count-3;
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 				
@@ -362,26 +355,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=23&&flag1>0) {//
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>23&&info.get(i).weight<=32) {
 							total_price+=2000;
 						}
@@ -400,15 +393,15 @@ public class Search extends HttpServlet {
 		int total_price=0;
 		int total_count=info.size();
 		
-		if(S_Cabin.equals("Í·µÈ²Õ")) {
+		if(S_Cabin.equals("å¤´ç­‰èˆ±")) {
 			int flag1=3;
 			int flag2=1;
 			int over_count=total_count-4;
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô±")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
@@ -421,26 +414,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 				if(info.get(i).weight<=20&&flag2==1&&
-						S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+						S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 						total_price+=1000;
 					}
 					flag2--;
 				}
 				else if(info.get(i).weight<=10&&flag2==1&&
-						S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+						S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 						total_price+=1000;
 					}
 					flag2--;
 				}
 				else if(info.get(i).weight<=32&&flag1>0) {//
-					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 						total_price+=1000;
 					}
 					flag1--;
 				}
-				else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+				else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 					if(info.get(i).weight>32) {
 						total_price+=3000;
 					}
@@ -450,23 +443,23 @@ public class Search extends HttpServlet {
 				}
 			}
 		}
-		else {//¹«Îñ²Õ¡¢Ã÷Öé¾­¼Ã²Õ¡¢¾­¼Ã²Õ
+		else {//å…¬åŠ¡èˆ±ã€æ˜ç ç»æµèˆ±ã€ç»æµèˆ±
 			int flag1=3;
 			int flag2=1;
 			int over_count=total_count-4;
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô±")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
-			if(S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")) {
+			if(S_Cabin.equals("æ˜ç ç»æµèˆ±")) {
 				flag1--;
 				over_count++;
 			}
-			if(S_Cabin.equals("¾­¼Ã²Õ")) {
+			if(S_Cabin.equals("ç»æµèˆ±")) {
 				flag1=flag1-2;
 				over_count=over_count+2;
 			}
@@ -479,26 +472,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 				if(info.get(i).weight<=20&&flag2==1&&
-						S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+						S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 						total_price+=1000;
 					}
 					flag2--;
 				}
 				else if(info.get(i).weight<=10&&flag2==1&&
-						S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+						S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 						total_price+=1000;
 					}
 					flag2--;
 				}
 				else if(info.get(i).weight<=23&&flag1>0) {//
-					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+					if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 						total_price+=1000;
 					}
 					flag1--;
 				}
-				else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+				else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 					if(info.get(i).weight>32) {
 						total_price+=3000;
 					}
@@ -516,20 +509,20 @@ public class Search extends HttpServlet {
 	public int Compute_Outline_5(String S_Cabin,String S_Type) {
 		int total_price=0;
 		int total_count=info.size();
-		if(S_Cabin.equals("Í·µÈ²Õ")||S_Cabin.equals("¹«Îñ²Õ")) {
+		if(S_Cabin.equals("å¤´ç­‰èˆ±")||S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 			int flag1=3;
 			int flag2=1;
 			int over_count=total_count-4;
-			if(S_Cabin.equals("¹«Îñ²Õ")) {
+			if(S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 				flag1=2;
 				flag2=1;
 				over_count+=1;
 			}
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
@@ -539,26 +532,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
-					else if(info.get(i).weight<=32&&flag1>0) {//Í·µÈ²Õ\¹«Îñ²ÕÃâ·ÑĞĞÀî¶î
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+					else if(info.get(i).weight<=32&&flag1>0) {//å¤´ç­‰èˆ±\å…¬åŠ¡èˆ±å…è´¹è¡Œæé¢
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>32) {
 							total_price+=3000;
 						}
@@ -571,15 +564,15 @@ public class Search extends HttpServlet {
 					}
 				}
 		}
-		else if(S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")||S_Cabin.equals("¾­¼Ã²Õ")) {
+		else if(S_Cabin.equals("æ˜ç ç»æµèˆ±")||S_Cabin.equals("ç»æµèˆ±")) {
 			int flag1=2;
 			int flag2=1;
 			int over_count=total_count-3;
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 				
@@ -590,26 +583,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=23&&flag1>0) {//
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>23&&info.get(i).weight<=32) {
 							total_price+=1000;
 						}
@@ -627,20 +620,20 @@ public class Search extends HttpServlet {
 	public int Compute_Outline_6(String S_Cabin,String S_Type) {
 		int total_price=0;
 		int total_count=info.size();
-		if(S_Cabin.equals("Í·µÈ²Õ")||S_Cabin.equals("¹«Îñ²Õ")) {
+		if(S_Cabin.equals("å¤´ç­‰èˆ±")||S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 			int flag1=3;
 			int flag2=1;
 			int over_count=total_count-4;
-			if(S_Cabin.equals("¹«Îñ²Õ")) {
+			if(S_Cabin.equals("å…¬åŠ¡èˆ±")) {
 				flag1=2;
 				flag2=1;
 				over_count+=1;
 			}
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
@@ -650,26 +643,26 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
-					else if(info.get(i).weight<=32&&flag1>0) {//Í·µÈ²Õ\¹«Îñ²ÕÃâ·ÑĞĞÀî¶î
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+					else if(info.get(i).weight<=32&&flag1>0) {//å¤´ç­‰èˆ±\å…¬åŠ¡èˆ±å…è´¹è¡Œæé¢
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>32) {
 							total_price+=3000;
 						}
@@ -679,15 +672,15 @@ public class Search extends HttpServlet {
 					}
 				}
 		}
-		else if(S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")||S_Cabin.equals("¾­¼Ã²Õ")) {
+		else if(S_Cabin.equals("æ˜ç ç»æµèˆ±")||S_Cabin.equals("ç»æµèˆ±")) {
 			int flag1=1;
 			int flag2=1;
 			int over_count=total_count-3;
-			if(S_Type.equals("ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô± ")) {
+			if(S_Type.equals("ç•™å­¦ç”Ÿã€åŠ³åŠ¡ã€æµ·å‘˜ ")) {
 				flag1++;
 				flag2--;
 			}
-			if(S_Type.equals("ÆÕÍ¨ÂÃ¿Í")||S_Type.equals("¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù")) {
+			if(S_Type.equals("æ™®é€šæ—…å®¢")||S_Type.equals("å„¿ç«¥ã€å åº§å©´å„¿")) {
 				flag2--;
 				over_count++;
 			}
@@ -697,34 +690,34 @@ public class Search extends HttpServlet {
 			for(int i=0;i<info.size();i++) {
 				if(!info.get(i).compulateORnot)continue;
 					if(info.get(i).weight<=20&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷Öé½ğ¿¨»áÔ±¡¢ÌìºÏÁªÃË³¬¼¶¾«Ó¢")) {//¸½ÔùµÄÃâ·ÑĞĞÀî
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é‡‘å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿè¶…çº§ç²¾è‹±")) {//é™„èµ çš„å…è´¹è¡Œæ
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=10&&flag2==1&&
-							S_Type.equals("ÄÏº½Ã÷ÖéÒø¿¨»áÔ±¡¢ÌìºÏÁªÃË¾«Ó¢")) {
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//¸½Ôùµ«³¬³ß´ç
+							S_Type.equals("å—èˆªæ˜ç é“¶å¡ä¼šå‘˜ã€å¤©åˆè”ç›Ÿç²¾è‹±")) {
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//é™„èµ ä½†è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag2--;
 					}
 					else if(info.get(i).weight<=23&&flag1>0&&
-							S_Cabin.equals("¾­¼Ã²Õ")) {//
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+							S_Cabin.equals("ç»æµèˆ±")) {//
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
 					else if(info.get(i).weight<=32&&flag1>0&&
-							S_Cabin.equals("Ã÷Öé¾­¼Ã²Õ")) {//
-						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//³¬³ß´ç
+							S_Cabin.equals("æ˜ç ç»æµèˆ±")) {//
+						if(info.get(i).height+info.get(i).width+info.get(i).length>158) {//è¶…å°ºå¯¸
 							total_price+=1000;
 						}
 						flag1--;
 					}
-					else{//ÅĞ¶Ï³¬ÖØÓë³¬³ß´ç
+					else{//åˆ¤æ–­è¶…é‡ä¸è¶…å°ºå¯¸
 						if(info.get(i).weight>23&&info.get(i).weight<=32) {
 							total_price+=1000;
 						}
@@ -740,14 +733,11 @@ public class Search extends HttpServlet {
 		return total_price;
 	}
 
-	@Test(dataProvider="user")
-	public void TestIN(String b,String p,int resS) {
+	public int TestIN(String b,String p,int resS) {
 		ArrayList<Baggage_INFO>aOFb=new ArrayList<Baggage_INFO>();
 		String []binfo=b.split("@");
-		//System.out.println(binfo.length);
 		for(int i=0;i<binfo.length;i++) {
 			String []temp=binfo[i].split("\\+");
-			//System.out.println(temp[0]+" "+temp[1]+" "+temp[2]+" "+temp[3]);
 			Baggage_INFO bi=new Baggage_INFO(Integer.parseInt(temp[0]),Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),Integer.parseInt(temp[3]),true);
 			aOFb.add(bi);
 		}
@@ -758,96 +748,18 @@ public class Search extends HttpServlet {
 			Bagg[i]=String.valueOf(i);
 		}
 		int res=Testng(aOFb,pi,Bagg);
-		//if(res==resS)System.out.println("True"+res+"="+resS);
-		//else System.out.println("Flase"+res+"!="+resS);
-		Assert.assertEquals(res,resS);
+		return res;
 	}
-	 @DataProvider(name="user")
-	    public Object[][] Users(){	   
-	        return new Object[][]{
-	        	{"50+50+50+42","ÆÕÍ¨ÂÃ¿Í+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",3000},
-	        	{"50+50+50+20","ÆÕÍ¨ÂÃ¿Í+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"0+0+0+0","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-2},
-	        	{"50+50+10+5","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+11","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-2},
-	        	{"50+50+20+5","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-2},
-	        	{"50+50+20+11","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-2},
-	        	{"50+50+10+5@50+50+10+5","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-2},
-	        	{"50+50+20+5@50+50+20+11","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-2},
-	        	{"50+50+10+5","²»Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+10+11","²»Õ¼×ùÓ¤¶ù+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",-2},
-	        	{"50+50+10+5@50+50+10+5","²»Õ¼×ùÓ¤¶ù+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",-2},
-	        	
-	        	{"50+50+10+0","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"0+0+0+20","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"50+-20+10+20","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"-10+50+10+20","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"50+50+-10+20","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"50+50+10+-10","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"50+50+10+40","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+60","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	{"50+50+10+50","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+40","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+50","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+40","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+30","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",0},
-	        	{"50+50+10+51","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",-1},
-	        	
-	        	{"50+50+10+41","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+50","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+31","ÆÕÍ¨ÂÃ¿Í+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+50","ÆÕÍ¨ÂÃ¿Í+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",3000},
-	        	{"50+50+10+21","ÆÕÍ¨ÂÃ¿Í+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+50","ÆÕÍ¨ÂÃ¿Í+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",4500},
-	        	{"50+50+10+21","ÆÕÍ¨ÂÃ¿Í+Ã÷Öé¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+50","ÆÕÍ¨ÂÃ¿Í+Ã÷Öé¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",4500},
-	        	{"50+50+10+41@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+40@50+50+10+21","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+50@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+50@50+50+10+50","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",6000},
-	        	{"50+50+10+40@50+50+10+10@50+50+10+11","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+40@50+50+10+11","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+41@50+50+10+10","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+40@50+50+10+10@50+50+10+10","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+41","ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô±+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+40@50+50+10+10","ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô±+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+50","ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô±+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+41","¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+50","¶ùÍ¯¡¢Õ¼×ùÓ¤¶ù+Í·µÈ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+30@50+50+10+21","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+31@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+30@50+50+10+20@50+50+10+10","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¹«Îñ²Õ+¹úÄÚº½Ïß+10000",1500},
-	        	{"50+50+10+20@50+50+10+21","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+41","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",150},
-	        	{"50+50+10+31","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+¾­¼Ã²Õ+¹úÄÚº½Ïß+10000",150},
-	        	
-	        	{"50+50+10+32@50+50+10+32@50+50+10+32","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+32","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+10+32@50+50+10+32","ÆÕÍ¨ÂÃ¿Í+¹«Îñ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+23@50+50+10+23","ÆÕÍ¨ÂÃ¿Í+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+32@50+50+10+32@50+50+10+32@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+32@50+50+10+32@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¹«Îñ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+23@50+50+10+23@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+23@50+50+10+23@50+50+10+20","ÄÏº½Ã÷Öé½ğ¿¨»áÔ±»òÌìºÏÁªÃË³¬¼¶¾«Ó¢+Ã÷Öé¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+32@50+50+10+32@50+50+10+32@50+50+10+10","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+23@50+50+10+23@50+50+10+10","ÄÏº½Ã÷ÖéÒø¿¨»áÔ±»òÌìºÏÁªÃË¾«Ó¢+¾­¼Ã²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+32@50+50+10+32@50+50+10+32@50+50+10+32","ÁôÑ§Éú¡¢ÀÍÎñ¡¢º£Ô±+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",0},
-	        	{"50+50+58+33@50+50+10+33@50+50+10+33","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",9000},
-	        	{"50+50+60+32@50+50+60+32@50+60+50+32","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",3000},
-	        	{"50+50+60+33@50+50+60+33@50+60+50+33","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",12000},
-	        	{"50+50+50+32@50+50+50+32@50+50+50+32@50+50+50+32","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",1000},
-	        	{"50+50+50+32@50+50+50+32@50+50+50+32@50+50+50+32@50+50+50+32","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",3000},
-	        	{"50+50+50+33@50+50+60+32@50+50+50+32@50+50+50+32@50+50+50+32","ÆÕÍ¨ÂÃ¿Í+Í·µÈ²Õ+¹ú¼Êº½ÏßÒ»+10000",7000}
-	        	
 
-	        };
-	    }
-    public int Testng(ArrayList<Baggage_INFO>bInfo,Passenger_Info pInfo,String[]Baggages) {
+
+
+
+	public int Testng(ArrayList<Baggage_INFO>bInfo, Passenger_Info pInfo, String[]Baggages) {
     	info=bInfo;
     	if(Baggages==null||Baggages.length==0) {
 			return -3;
 		}
-    	if(pInfo.S_Type.equals("²»Õ¼×ùÓ¤¶ù")) {
+    	if(pInfo.S_Type.equals("ä¸å åº§å©´å„¿")) {
 			if(Baggages.length>1) {
 				return -2;
 			}
@@ -867,7 +779,7 @@ public class Search extends HttpServlet {
 			bInfo.get(j).compulateORnot=true;
 		}
 		int res=0;
-		if(pInfo.S_Line.equals("¹úÄÚº½Ïß"))
+		if(pInfo.S_Line.equals("å›½å†…èˆªçº¿"))
 			{
 			for(int i=0;i<bInfo.size();i++) {
 				if(bInfo.get(i).compulateORnot) {
@@ -881,9 +793,7 @@ public class Search extends HttpServlet {
 			}
 		}
 		else {
-			//System.out.println("binfo.size"+bInfo.size());
 			for(int i=0;i<bInfo.size();i++) {
-				//System.out.println("i"+"+"+i);
 				if(bInfo.get(i).compulateORnot) {
 					if(bInfo.get(i).weight>45||
 							bInfo.get(i).weight<=0||
@@ -895,19 +805,14 @@ public class Search extends HttpServlet {
 				}
 			}
 		}
-		if(pInfo.S_Line.equals("¹úÄÚº½Ïß"))res=Compute_Inline(pInfo.S_Cabin,pInfo.S_Type,pInfo.current_fare);
-		else if(pInfo.S_Line.equals("¹ú¼Êº½ÏßÒ»"))res=Compute_Outline_1(pInfo.S_Cabin,pInfo.S_Type);
-		else if(pInfo.S_Line.equals("¹ú¼Êº½Ïß¶ş"))res=Compute_Outline_2(pInfo.S_Cabin,pInfo.S_Type);
-		else if(pInfo.S_Line.equals("¹ú¼Êº½ÏßÈı"))res=Compute_Outline_3(pInfo.S_Cabin,pInfo.S_Type);
-		else if(pInfo.S_Line.equals("Éæ¼°º«¹úÊ¼·¢ÓëÖĞ¹ú¼äµÄº½Ïß"))res=Compute_Outline_4(pInfo.S_Cabin,pInfo.S_Type);
-		else if(pInfo.S_Line.equals("Éæ¼°À¼Öİ/ÎÚÂ³Ä¾ÆëÓëµÏ°İÖ®¼äµÄº½Ïß"))res=Compute_Outline_5(pInfo.S_Cabin,pInfo.S_Type);
+		if(pInfo.S_Line.equals("å›½å†…èˆªçº¿"))res=Compute_Inline(pInfo.S_Cabin,pInfo.S_Type,pInfo.current_fare);
+		else if(pInfo.S_Line.equals("å›½é™…èˆªçº¿ä¸€"))res=Compute_Outline_1(pInfo.S_Cabin,pInfo.S_Type);
+		else if(pInfo.S_Line.equals("å›½é™…èˆªçº¿äºŒ"))res=Compute_Outline_2(pInfo.S_Cabin,pInfo.S_Type);
+		else if(pInfo.S_Line.equals("å›½é™…èˆªçº¿ä¸‰"))res=Compute_Outline_3(pInfo.S_Cabin,pInfo.S_Type);
+		else if(pInfo.S_Line.equals("æ¶‰åŠéŸ©å›½å§‹å‘ä¸ä¸­å›½é—´çš„èˆªçº¿"))res=Compute_Outline_4(pInfo.S_Cabin,pInfo.S_Type);
+		else if(pInfo.S_Line.equals("æ¶‰åŠå…°å·/ä¹Œé²æœ¨é½ä¸è¿ªæ‹œä¹‹é—´çš„èˆªçº¿"))res=Compute_Outline_5(pInfo.S_Cabin,pInfo.S_Type);
 		else res=Compute_Outline_6(p_info.S_Cabin,p_info.S_Type);
-		
-		//info.clear();
 		String res_s=String.valueOf(res);
-		System.out.println(res_s);
-		//request.setAttribute("Money",res_s);
-		//request.getRequestDispatcher("/Index2.jsp").forward(request, response);
     	return res;
     }
 	
@@ -941,12 +846,10 @@ class Passenger_Info{
 	public Passenger_Info() {
 		
 	}
-	String S_Type;//ÂÃ¿ÍÀàĞÍ
-	String S_Cabin;//²ÕÎ»ÀàĞÍ
-	String S_Line;//º½ÏßÀàĞÍ
-	int current_fare;//Æ±¼Û
+	String S_Type;//æ—…å®¢ç±»å‹
+	String S_Cabin;//èˆ±ä½ç±»å‹
+	String S_Line;//èˆªçº¿ç±»å‹
+	int current_fare;//ç¥¨ä»·
 	
 }
-class TestNG{
-	
-}
+
